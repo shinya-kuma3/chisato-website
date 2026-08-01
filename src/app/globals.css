@@ -62,6 +62,9 @@ select {
   -moz-user-select: text;
   -ms-user-select: text;
   user-select: text;
+  /* パーティクル(z-index:47)より前面にして、入力欄の上に粒が被らないようにする */
+  position: relative;
+  z-index: 48;
 }
 
 /* ---------- カーソル追従の光る球体 ---------- */
@@ -437,29 +440,66 @@ code {
   filter: blur(6px);
 }
 
-/* 浮遊するほこり */
-.particles span {
-  position: absolute;
-  bottom: 10%;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.35);
-  animation: floatUp 12s linear infinite;
+/* 浮遊する光の粒 */
+/* z-index:1 = 背景の上・コンテンツの下。カードやイラスト(z-index:46)の背後に回る */
+.particles {
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.particles span:nth-child(1) { left: 12%; animation-delay: 0s; }
-.particles span:nth-child(2) { left: 28%; animation-delay: 3s; animation-duration: 15s; }
-.particles span:nth-child(3) { left: 46%; animation-delay: 6s; }
-.particles span:nth-child(4) { left: 64%; animation-delay: 1.5s; animation-duration: 17s; }
-.particles span:nth-child(5) { left: 78%; animation-delay: 8s; }
-.particles span:nth-child(6) { left: 90%; animation-delay: 4.5s; animation-duration: 14s; }
+/* 下層ページ用: 画面全体の固定レイヤー */
+.particles-fixed {
+  position: fixed;
+  inset: 0;
+}
+
+/* TOPのファーストビュー用: ヒーローの中だけ */
+.particles-hero {
+  position: absolute;
+  inset: 0;
+}
+
+.particles span {
+  position: absolute;
+  bottom: -2%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(160, 245, 230, 0.85);
+  box-shadow: 0 0 6px 1px rgba(79, 216, 196, 0.55);
+  animation: floatUp 13s linear infinite;
+}
+
+.particles span:nth-child(1)  { left: 6%;  animation-delay: 0s;    animation-duration: 13s; }
+.particles span:nth-child(2)  { left: 13%; animation-delay: 5s;    animation-duration: 16s; }
+.particles span:nth-child(3)  { left: 20%; animation-delay: 2.2s;  animation-duration: 11s; }
+.particles span:nth-child(4)  { left: 27%; animation-delay: 7.5s;  animation-duration: 18s; }
+.particles span:nth-child(5)  { left: 34%; animation-delay: 1s;    animation-duration: 14s; }
+.particles span:nth-child(6)  { left: 41%; animation-delay: 9s;    animation-duration: 12s; }
+.particles span:nth-child(7)  { left: 48%; animation-delay: 3.5s;  animation-duration: 17s; }
+.particles span:nth-child(8)  { left: 55%; animation-delay: 6.2s;  animation-duration: 13s; }
+.particles span:nth-child(9)  { left: 62%; animation-delay: 0.6s;  animation-duration: 15s; }
+.particles span:nth-child(10) { left: 69%; animation-delay: 8.4s;  animation-duration: 11s; }
+.particles span:nth-child(11) { left: 76%; animation-delay: 2.8s;  animation-duration: 19s; }
+.particles span:nth-child(12) { left: 82%; animation-delay: 5.6s;  animation-duration: 13s; }
+.particles span:nth-child(13) { left: 88%; animation-delay: 1.6s;  animation-duration: 16s; }
+.particles span:nth-child(14) { left: 93%; animation-delay: 7s;    animation-duration: 12s; }
+.particles span:nth-child(15) { left: 97%; animation-delay: 4s;    animation-duration: 14s; }
+.particles span:nth-child(16) { left: 3%;  animation-delay: 10s;   animation-duration: 17s; }
 
 @keyframes floatUp {
   0% { transform: translateY(0); opacity: 0; }
-  10% { opacity: 0.5; }
-  90% { opacity: 0.2; }
-  100% { transform: translateY(-70vh); opacity: 0; }
+  8% { opacity: 0.7; }
+  85% { opacity: 0.5; }
+  100% { transform: translateY(-100vh); opacity: 0; }
+}
+
+/* 動きを抑える設定では非表示 */
+@media (prefers-reduced-motion: reduce) {
+  .particles {
+    display: none;
+  }
 }
 
 @media (max-width: 800px) {
@@ -480,6 +520,8 @@ code {
 /* ---------- Buttons ---------- */
 
 .btn {
+  position: relative;
+  z-index: 46; /* パーティクル(z-index:1)より前面 = 粒はボタンの背後を通る */
   display: inline-block;
   padding: 12px 26px;
   border-radius: 999px;
@@ -508,7 +550,8 @@ code {
 }
 
 .btn-outline {
-  background: transparent;
+  /* 透明だとパーティクルが透けるため、不透明な暗い背景で塞ぐ */
+  background: var(--bg0);
   color: var(--text);
   border: 2px solid rgba(255, 255, 255, 0.4);
 }
@@ -519,7 +562,8 @@ code {
 }
 
 .btn-navy {
-  background: transparent;
+  /* 透明だとパーティクルが透けるため、不透明な暗い背景で塞ぐ */
+  background: var(--bg0);
   color: var(--text);
   border: 2px solid var(--line);
 }
@@ -1062,20 +1106,53 @@ code {
 /* ---------- テーブル ---------- */
 
 .price-table {
+  position: relative;
+  z-index: 46; /* パーティクル(z-index:1)より前面 = 粒は表の背後を通る */
   width: 100%;
-  border-collapse: collapse;
+  /* separate + overflow:hidden で四隅の角丸を効かせる (collapse だと下の角が四角くなる) */
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 0.9rem;
   background: var(--panel-2);
   border-radius: var(--radius);
   overflow: hidden;
 }
 
+/* 二重線にならないよう、各セルは右・下だけ罫線を引く */
 .price-table th,
 .price-table td {
-  border: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   padding: 10px 14px;
   text-align: left;
   color: var(--text);
+}
+
+/* 左端セルと最上段は外周の線を補う */
+.price-table th:first-child,
+.price-table td:first-child {
+  border-left: 1px solid var(--line);
+}
+
+.price-table thead th {
+  border-top: 1px solid var(--line);
+}
+
+/* 四隅のセルに角丸を付けて、罫線が角で切れないようにする */
+.price-table thead tr:first-child th:first-child {
+  border-top-left-radius: var(--radius);
+}
+
+.price-table thead tr:first-child th:last-child {
+  border-top-right-radius: var(--radius);
+}
+
+.price-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: var(--radius);
+}
+
+.price-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: var(--radius);
 }
 
 .price-table td {

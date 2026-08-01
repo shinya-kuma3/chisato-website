@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import IllustrationPlaceholder from "@/components/IllustrationPlaceholder";
+import Particles from "@/components/Particles";
 import RequestForm from "./RequestForm";
 
 export const metadata: Metadata = { title: "歌ってみたリクエスト" };
 
 export default function RequestPage() {
   return (
-    <section className="section">
+    <>
+      <Particles />
+      <section className="section">
       <div className="container">
         <h2 className="section-title">
           <span className="en">SONG REQUEST</span>ドアの下から届く手紙
@@ -29,6 +32,7 @@ export default function RequestPage() {
 
         <RequestForm />
       </div>
-    </section>
+      </section>
+    </>
   );
 }

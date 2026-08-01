@@ -1,5 +1,6 @@
 import Link from "next/link";
 import IllustrationPlaceholder from "@/components/IllustrationPlaceholder";
+import Particles from "@/components/Particles";
 
 export default function HomePage() {
   return (
@@ -22,15 +23,8 @@ export default function HomePage() {
             </span>
             <span className="desk-line" />
           </div>
-          <div className="particles">
-            <span />
-            <span />
-            <span />
-            <span />
-            <span />
-            <span />
-          </div>
         </div>
+        <Particles variant="hero" />
         <div className="container">
           <div>
             <p className="hero-loc">AM 2:00 — チサトの部屋</p>

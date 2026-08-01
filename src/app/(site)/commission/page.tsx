@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import IllustrationPlaceholder from "@/components/IllustrationPlaceholder";
+import Particles from "@/components/Particles";
 import CommissionForm from "./CommissionForm";
 import { portfolio } from "@/data/portfolio";
 
@@ -70,7 +71,9 @@ const categories = [
 
 export default function CommissionPage() {
   return (
-    <section className="section">
+    <>
+      <Particles />
+      <section className="section">
       <div className="container">
         <h2 className="section-title">
           <span className="en">COMMISSION</span>部屋の隅の仕事机
@@ -197,6 +200,7 @@ export default function CommissionPage() {
         <h3 style={{ marginBottom: 14 }}>依頼フォーム</h3>
         <CommissionForm />
       </div>
-    </section>
+      </section>
+    </>
   );
 }

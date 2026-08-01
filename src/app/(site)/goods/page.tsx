@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import IllustrationPlaceholder from "@/components/IllustrationPlaceholder";
+import Particles from "@/components/Particles";
 
 export const metadata: Metadata = { title: "グッズ" };
 
@@ -52,7 +53,9 @@ const goods = [
 
 export default function GoodsPage() {
   return (
-    <section className="section">
+    <>
+      <Particles />
+      <section className="section">
       <div className="container">
         <h2 className="section-title">
           <span className="en">GOODS</span>棚の上のコレクション
@@ -81,6 +84,7 @@ export default function GoodsPage() {
           ))}
         </div>
       </div>
-    </section>
+      </section>
+    </>
   );
 }

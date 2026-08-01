@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import IllustrationPlaceholder from "@/components/IllustrationPlaceholder";
+import Particles from "@/components/Particles";
 
 export const metadata: Metadata = { title: "プロフィール" };
 
 export default function AboutPage() {
   return (
-    <section className="section">
+    <>
+      <Particles />
+      <section className="section">
       <div className="container">
         <h2 className="section-title">
           <span className="en">PROFILE</span>この部屋の主、チサト
@@ -77,6 +80,7 @@ export default function AboutPage() {
           />
         </div>
       </div>
-    </section>
+      </section>
+    </>
   );
 }
