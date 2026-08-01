@@ -64,6 +64,49 @@ select {
   user-select: text;
 }
 
+/* ---------- カーソル追従の光る球体 ---------- */
+/* 前面レイヤー(ヘッダーより下)。イラスト上ではJS側でフェードアウトさせる */
+.cursor-glow-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cursor-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px; /* カーソルより一回り大きいくらい */
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(120, 240, 220, 0.95) 0%,
+    rgba(79, 216, 196, 0.7) 45%,
+    rgba(79, 216, 196, 0) 75%
+  );
+  filter: blur(8px);
+  opacity: 0;
+  will-change: transform, opacity;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.25s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-glow-layer {
+    display: none;
+  }
+}
+
+/* マウスのない端末では非表示 */
+@media (hover: none) {
+  .cursor-glow-layer {
+    display: none;
+  }
+}
+
 a {
   color: var(--blue);
   text-decoration: none;
@@ -190,7 +233,7 @@ code {
 
 .hero .container {
   position: relative;
-  z-index: 2;
+  z-index: 46; /* カーソルの光る球体(z-index:45)より前面。ヒーロー内のイラストが球体を隠す */
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   gap: 40px;
@@ -586,6 +629,8 @@ code {
 }
 
 .card {
+  position: relative;
+  z-index: 46; /* カーソルの光る球体(z-index:45)より前面 = 球体はカードの背後を通る */
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -731,6 +776,7 @@ code {
 
 .illust-frame {
   position: relative;
+  z-index: 46; /* カーソルの光る球体(z-index:45)より前面 = イラストが球体を隠す */
   width: 100%;
   border: 2px dashed rgba(79, 216, 196, 0.45);
   border-radius: var(--radius);

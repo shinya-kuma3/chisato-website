@@ -67,7 +67,13 @@ export default function AboutPage() {
             alt="チサト キャラクターデザイン三面図"
             width={1200}
             height={848}
-            style={{ width: "100%", height: "auto", borderRadius: 10 }}
+            style={{
+              width: "100%",
+              height: "auto",
+              borderRadius: 10,
+              position: "relative",
+              zIndex: 46,
+            }}
           />
         </div>
       </div>
