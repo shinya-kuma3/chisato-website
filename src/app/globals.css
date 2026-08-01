@@ -180,7 +180,7 @@ code {
 
 .nav {
   display: flex;
-  gap: 4px;
+  gap: 8px;
   flex-wrap: wrap;
   padding: 6px 0;
 }
@@ -550,8 +550,8 @@ code {
 }
 
 .btn-outline {
-  /* 透明だとパーティクルが透けるため、不透明な暗い背景で塞ぐ */
-  background: var(--bg0);
+  /* 半透明の暗い背景。カーソル追従の光(z-index:45)が背後で透けて見える */
+  background: rgba(9, 14, 23, 0.5);
   color: var(--text);
   border: 2px solid rgba(255, 255, 255, 0.4);
 }
@@ -562,8 +562,8 @@ code {
 }
 
 .btn-navy {
-  /* 透明だとパーティクルが透けるため、不透明な暗い背景で塞ぐ */
-  background: var(--bg0);
+  /* 半透明の暗い背景。カーソル追従の光(z-index:45)が背後で透けて見える */
+  background: rgba(9, 14, 23, 0.5);
   color: var(--text);
   border: 2px solid var(--line);
 }
@@ -919,6 +919,18 @@ code {
   color: var(--text);
 }
 
+/* セレクトは独自の矢印にして、アイコンの右側を12px空ける
+   (背景色・画像・位置を1つのショートハンドで指定して確実に反映させる) */
+.field select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 42px;
+  background: #0b1424
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239fb2c8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")
+    no-repeat right 12px center;
+}
+
 .field input::placeholder,
 .field textarea::placeholder {
   color: rgba(159, 178, 200, 0.45);
@@ -1169,11 +1181,37 @@ code {
 /* ---------- Footer ---------- */
 
 .site-footer {
+  position: relative;
+  overflow: hidden;
   background: #050810;
   color: var(--muted);
   padding: 40px 0 32px;
   margin-top: 64px;
   border-top: 1px solid var(--line);
+}
+
+/* フッター下辺全体をメインカラーで一直線に光らせる (下から上へフェード) */
+.site-footer::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 200px;
+  background: linear-gradient(
+    to top,
+    rgba(79, 216, 196, 0.28) 0%,
+    rgba(79, 216, 196, 0.08) 40%,
+    rgba(79, 216, 196, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* フッターの文字・リンクは光より前面に */
+.site-footer .inner {
+  position: relative;
+  z-index: 1;
 }
 
 .site-footer .inner {
